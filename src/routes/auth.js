@@ -56,10 +56,19 @@ router.post("/signup", async (req, res) => {
     }
     // create a new user
     const newUser = new User({ username, password });
+    console.log('New user ', newUser);
+    
     await newUser.save();
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: newUser._id }, secrek_key, {
+      expiresIn: "1h",
+    });
+
     // Set cookie for authentication
     res.cookie("authToken", "authenticated", { httpOnly: true });
-    res.status(200).json({ success: true, message: "Signup successful", code: 201 });
+
+    res.status(200).json({ success: true, message: "Signup successful", token, code: 201 });
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(200).json({ success: false, message: "Internal server error" });
