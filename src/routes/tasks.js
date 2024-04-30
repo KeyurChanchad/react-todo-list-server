@@ -5,9 +5,10 @@ const router = express.Router();
 const Task = require('../models/Task');
 const verifyAuth = require('../middleware/authMiddleware')
 
+// Get all tasks
 router.get('/', verifyAuth, async (req, res) => {
     try {
-        const tasks = await Task.find();
+        const tasks = await Task.find({ userId: req.userId });
         console.log('All task ', tasks);
         
         res.status(200).json({ success: true, tasks });
@@ -35,10 +36,10 @@ router.post('/', verifyAuth, async (req, res) => {
 // Update a task
 router.put('/:id', verifyAuth, async (req, res) => {
     const { id } = req.params;
-    const { description, completed } = req.body;
+    const { description, status } = req.body;
   
     try {
-      const task = await Task.findByIdAndUpdate(id, { description, completed }, { new: true });
+      const task = await Task.findByIdAndUpdate(id, { description, status }, { new: true });
   
       if (!task) {
         return res.status(404).json({ success: false, message: 'Task not found' });
@@ -54,7 +55,6 @@ router.put('/:id', verifyAuth, async (req, res) => {
 // Delete a task
 router.delete('/:id', verifyAuth, async (req, res) => {
     const { id } = req.params;
-
     try {
       const task = await Task.findByIdAndDelete(id);
   
