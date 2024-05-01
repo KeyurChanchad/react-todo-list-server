@@ -1,3 +1,3 @@
 const secrek_key = 'Keyur@123';
-
-module.exports = { secrek_key }
+const mongoURL = "mongodb+srv://chanchadkeyur2001:cFaqHvOWRkCkhmCr@codingthunder.cknbpyg.mongodb.net/"
+module.exports = { secrek_key, mongoURL }

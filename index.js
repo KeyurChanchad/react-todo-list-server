@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-
+const { mongoURL } = require('./constant')
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1:27017/task_manager', { })
+mongoose.connect(`${mongoURL}task_manager`, { })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
